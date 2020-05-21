@@ -39,6 +39,7 @@ impl<'s> System<'s> for EnemyInRangeTagger {
                         tower_entity,
                         InRange {
                             other: enemy_entity,
+                            other_transform: enemy_transform.clone(),
                         },
                     );
                 } else {

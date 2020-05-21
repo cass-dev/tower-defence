@@ -1,6 +1,9 @@
-use crate::components::{Enemy, FireRate, Missile, Path, Speed, Tower, Velocity, CircleBounds, Health, Damage};
+use crate::components::{
+    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Path, Speed, Tower, Velocity,
+};
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::systems::{MissileTargetter, TowerFirer};
+use crate::texture::SpriteSheetHandle;
 use crate::{camera, texture};
 use crate::{components, systems};
 use amethyst::ecs::{Dispatcher, DispatcherBuilder};
@@ -17,7 +20,6 @@ use amethyst::{
     window::ScreenDimensions,
 };
 use amethyst::{core::transform::Transform, renderer::Camera, GameData, SimpleState, StateData};
-use crate::texture::SpriteSheetHandle;
 
 #[derive(Default)]
 pub struct Game<'a, 'b> {
@@ -37,7 +39,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
 
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
-            .with(systems::VelocityMover, "enemy_mover", &["enemy_pather"])
+            .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
             .with(systems::PathDebugDraw, "debug_path_draw", &[])
             .with(
                 systems::TowerRadiusDebugDraw,
@@ -57,7 +59,8 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
                 "missile_targetter",
                 &["tower_firer"],
             )
-            .with(systems::EnemyMissileCollider, "enemy_missile_collder", &[]);
+            .with(systems::EnemyMissileCollider, "enemy_missile_collder", &[])
+            .with(systems::TowerRotator, "tower_rotator", &["velocity_mover"]);
 
         let mut dispatcher = dispatcher_builder.build();
         dispatcher.setup(data.world);
@@ -83,9 +86,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
             ]))
             .with(Velocity::default())
             .with(Speed(42.0))
-            .with(CircleBounds {
-                radius: 18.0,
-            })
+            .with(CircleBounds { radius: 18.0 })
             .with(Health(1000.0))
             .build();
 
