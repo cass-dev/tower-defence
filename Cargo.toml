@@ -1,0 +1,9 @@
+[package]
+name = "game02"
+version = "0.1.0"
+authors = ["Tom Craven <tom.cass.craven@gmail.com>"]
+edition = "2018"
+
+[dependencies.amethyst]
+version = "0.14"
+features = ["vulkan"]
