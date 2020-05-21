@@ -70,7 +70,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
             .with(Enemy::default())
             .with(SpriteRender {
                 sprite_sheet: sprite_sheet.clone(),
-                sprite_number: 0,
+                sprite_number: (10 * 23) + 15,
             })
             .with({
                 let mut transform = Transform::default();
@@ -98,7 +98,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
             .with(Tower { range: 150.0 })
             .with(SpriteRender {
                 sprite_sheet: sprite_sheet.clone(),
-                sprite_number: 1,
+                sprite_number: (10 * 23) + 19,
             })
             .with({
                 let mut transform = Transform::default();

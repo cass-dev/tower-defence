@@ -53,7 +53,7 @@ impl<'s> System<'s> for TowerFirer {
                     })
                     .with(SpriteRender {
                         sprite_sheet: self.sprite_sheet.clone(),
-                        sprite_number: 2,
+                        sprite_number: (11 * 23) + 19,
                     })
                     .with({
                         let mut transform = Transform::default();
