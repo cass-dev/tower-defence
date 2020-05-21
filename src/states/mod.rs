@@ -1,3 +1,5 @@
-pub use self::game_state::GameState;
+pub use self::game::Game;
+pub use self::load::Load;
 
-mod game_state;
+mod load;
+mod game;

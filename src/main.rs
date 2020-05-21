@@ -35,7 +35,7 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?;
 
     let assets_dir = app_root.join("assets");
-    let mut game = Application::new(assets_dir, states::GameState::default(), game_data)?;
+    let mut game = Application::new(assets_dir, states::Load::default(), game_data)?;
     game.run();
 
     Ok(())

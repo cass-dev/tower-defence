@@ -17,17 +17,23 @@ use amethyst::{
     window::ScreenDimensions,
 };
 use amethyst::{core::transform::Transform, renderer::Camera, GameData, SimpleState, StateData};
+use crate::texture::SpriteSheetHandle;
 
 #[derive(Default)]
-pub struct GameState<'a, 'b> {
+pub struct Game<'a, 'b> {
     dispatcher: Option<Dispatcher<'a, 'b>>,
 }
 
-impl<'a, 'b> SimpleState for GameState<'a, 'b> {
+impl<'a, 'b> SimpleState for Game<'a, 'b> {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         camera::init(data.world);
         components::init(data.world);
-        let sprite_sheet = texture::init(data.world);
+
+        println!("a");
+
+        let sprite_sheet = data.world.read_resource::<SpriteSheetHandle>().0.clone();
+
+        println!("b");
 
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
@@ -58,7 +64,7 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
 
         self.dispatcher = Some(dispatcher);
 
-        // Create single enemy for testing
+        // Create some assets
         data.world
             .create_entity()
             .with(Enemy::default())
@@ -101,20 +107,6 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
             })
             .with(FireRate::new(0.25))
             .build();
-
-        // data.world
-        //     .create_entity()
-        //     .with(Missile {})
-        //     .with(SpriteRender {
-        //         sprite_sheet: sprite_sheet.clone(),
-        //         sprite_number: 2,
-        //     })
-        //     .with({
-        //         let mut transform = Transform::default();
-        //         transform.set_translation_xyz(350.0, 350.0, 0.0);
-        //         transform
-        //     })
-        //     .build();
     }
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {
