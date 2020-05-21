@@ -12,6 +12,7 @@ use amethyst::{
 mod camera;
 mod components;
 mod constants;
+mod resources;
 mod states;
 mod systems;
 mod texture;

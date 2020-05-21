@@ -1,5 +1,5 @@
 use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Path, Speed, Tower, Velocity,
+    CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Speed, Tower, Velocity,
 };
 use amethyst::prelude::Builder;
 use amethyst::{

@@ -1,5 +1,5 @@
 use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Path, Speed, Tower, Velocity,
+    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Speed, Tower, Velocity,
 };
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::systems::{MissileTargetter, TowerFirer};

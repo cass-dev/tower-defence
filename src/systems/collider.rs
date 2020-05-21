@@ -1,12 +1,12 @@
-use crate::components::{Enemy, Path, Speed, Velocity, CircleBounds, Missile, Damage, Health};
+use crate::components::{CircleBounds, Damage, Enemy, Health, Missile, Speed, Velocity};
 use amethyst::{
+    core::math,
+    core::math::Point2,
     core::timing::Time,
     core::transform::Transform,
     core::SystemDesc,
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, World, WriteStorage, Entities},
-    core::math,
-    core::math::Point2,
+    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, World, WriteStorage},
 };
 
 #[derive(SystemDesc)]
@@ -20,12 +20,25 @@ impl<'s> System<'s> for EnemyMissileCollider {
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Damage>,
         WriteStorage<'s, Health>,
-        Entities<'s>
+        Entities<'s>,
     );
 
-    fn run(&mut self, (circle_bounds, enemies, missiles, transforms, damages, mut healths, entities): Self::SystemData) {
-        for (enemy_circle_bound, enemy_transform, _, mut health, enemy_entity) in (&circle_bounds, &transforms, &enemies, &mut healths, &*entities).join() {
-            for (missile_circle_bound, missile_transform, _, damage, missile_entity) in (&circle_bounds, &transforms, &missiles, &damages, &*entities).join() {
+    fn run(
+        &mut self,
+        (circle_bounds, enemies, missiles, transforms, damages, mut healths, entities): Self::SystemData,
+    ) {
+        for (enemy_circle_bound, enemy_transform, _, mut health, enemy_entity) in (
+            &circle_bounds,
+            &transforms,
+            &enemies,
+            &mut healths,
+            &*entities,
+        )
+            .join()
+        {
+            for (missile_circle_bound, missile_transform, _, damage, missile_entity) in
+                (&circle_bounds, &transforms, &missiles, &damages, &*entities).join()
+            {
                 let enemy_position = enemy_transform.translation();
                 let missile_position = missile_transform.translation();
 

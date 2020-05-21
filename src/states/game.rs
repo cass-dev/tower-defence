@@ -1,7 +1,8 @@
 use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Path, Speed, Tower, Velocity,
+    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Speed, Tower, Velocity,
 };
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
+use crate::resources::Path;
 use crate::systems::{MissileTargetter, TowerFirer};
 use crate::texture::SpriteSheetHandle;
 use crate::{camera, texture};
@@ -63,6 +64,15 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
 
         self.dispatcher = Some(dispatcher);
 
+        data.world.insert(Path(vec![
+            Point2::new(350.0, 123.0),
+            Point2::new(200.0, 100.0),
+            Point2::new(100.0, 200.0),
+            Point2::new(200.0, 200.0),
+            Point2::new(223.0, 242.0),
+            Point2::new(254.0, 123.0),
+        ]));
+
         // Create some assets
         data.world
             .create_entity()
@@ -72,14 +82,6 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
                 sprite_number: (10 * 23) + 15,
             })
             .with(Transform::default())
-            .with(Path::new(vec![
-                Point2::new(350.0, 123.0),
-                Point2::new(200.0, 100.0),
-                Point2::new(100.0, 200.0),
-                Point2::new(200.0, 200.0),
-                Point2::new(223.0, 242.0),
-                Point2::new(254.0, 123.0),
-            ]))
             .with(Velocity::default())
             .with(Speed(42.0))
             .with(CircleBounds { radius: 18.0 })

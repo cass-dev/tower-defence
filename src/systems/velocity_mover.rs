@@ -1,4 +1,4 @@
-use crate::components::{Enemy, Path, Speed, Velocity};
+use crate::components::{Enemy, Speed, Velocity};
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
