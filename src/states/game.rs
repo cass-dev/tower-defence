@@ -72,13 +72,9 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
                 sprite_sheet: sprite_sheet.clone(),
                 sprite_number: (10 * 23) + 15,
             })
-            .with({
-                let mut transform = Transform::default();
-                transform.set_translation_xyz(150.0, 150.0, 0.0);
-                transform
-            })
+            .with(Transform::default())
             .with(Path::new(vec![
-                Point2::new(100.0, 100.0),
+                Point2::new(350.0, 123.0),
                 Point2::new(200.0, 100.0),
                 Point2::new(100.0, 200.0),
                 Point2::new(200.0, 200.0),
@@ -90,7 +86,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
             .with(CircleBounds {
                 radius: 18.0,
             })
-            .with(Health(100.0))
+            .with(Health(1000.0))
             .build();
 
         data.world

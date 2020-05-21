@@ -1,11 +1,15 @@
 use crate::components::{Enemy, Path, Velocity};
 use amethyst::{
-    core::math::{Point2, Unit, Vector2, Vector3},
+    core::math::{Point2, Point3, Unit, Vector2, Vector3},
     core::timing::Time,
     core::transform::Transform,
     core::SystemDesc,
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, World, Write, WriteStorage},
+    renderer::{
+        debug_drawing::{DebugLines, DebugLinesComponent, DebugLinesParams},
+        palette::Srgba,
+    },
 };
 
 #[derive(SystemDesc)]
@@ -17,9 +21,13 @@ impl<'s> System<'s> for EnemyPather {
         WriteStorage<'s, Transform>,
         WriteStorage<'s, Enemy>,
         WriteStorage<'s, Velocity>,
+        Write<'s, DebugLines>,
     );
 
-    fn run(&mut self, (paths, mut transforms, mut enemies, mut velocities): Self::SystemData) {
+    fn run(
+        &mut self,
+        (paths, mut transforms, mut enemies, mut velocities, mut debug_lines): Self::SystemData,
+    ) {
         for (path, mut transform, mut enemy, mut velocity) in
             (&paths, &mut transforms, &mut enemies, &mut velocities).join()
         {
@@ -37,7 +45,13 @@ impl<'s> System<'s> for EnemyPather {
                         if path_index == path.points.len() - 2 {
                             enemy.path_index = None;
                         } else {
-                            transform.set_translation_xyz(next_point.x, next_point.y, 0.0);
+                            let new_next_path = path.points[path_index + 2];
+
+                            let angle = (new_next_path.y - next_point.y)
+                                .atan2((new_next_path.x - next_point.x));
+
+                            transform.set_rotation_z_axis(angle);
+
                             enemy.path_index = Some(path_index + 1);
                         }
                     }
@@ -46,7 +60,15 @@ impl<'s> System<'s> for EnemyPather {
                 }
                 None => {
                     enemy.path_index = Some(0);
-                    transform.set_translation_xyz(path.points[0].x, path.points[0].y, 0.0);
+                    let current_point = path.points[0];
+                    let next_point = path.points[1];
+
+                    let angle =
+                        (next_point.y - current_point.y).atan2((next_point.x - current_point.x));
+
+                    transform.set_rotation_z_axis(angle);
+
+                    transform.set_translation_xyz(current_point.x, current_point.y, 0.0);
                 }
             }
         }
