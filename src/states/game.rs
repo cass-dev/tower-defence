@@ -31,21 +31,17 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
         camera::init(data.world);
         components::init(data.world);
 
-        println!("a");
-
         let sprite_sheet = data.world.read_resource::<SpriteSheetHandle>().0.clone();
-
-        println!("b");
 
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
-            .with(systems::PathDebugDraw, "debug_path_draw", &[])
-            .with(
-                systems::TowerRadiusDebugDraw,
-                "tower_radius_debug_draw",
-                &[],
-            )
+            // .with(systems::PathDebugDraw, "debug_path_draw", &[])
+            // .with(
+            //     systems::TowerRadiusDebugDraw,
+            //     "tower_radius_debug_draw",
+            //     &[],
+            // )
             .with(systems::EnemyInRangeTagger, "enemy_in_range_tagger", &[])
             .with(
                 TowerFirer {
@@ -87,7 +83,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
             .with(Velocity::default())
             .with(Speed(42.0))
             .with(CircleBounds { radius: 18.0 })
-            .with(Health(1000.0))
+            .with(Health(100.0))
             .build();
 
         data.world
@@ -102,7 +98,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
                 transform.set_translation_xyz(200.0, 300.0, 0.0);
                 transform
             })
-            .with(FireRate::new(0.25))
+            .with(FireRate::new(0.5))
             .build();
     }
 
