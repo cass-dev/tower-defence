@@ -32,12 +32,12 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "enemy_mover", &["enemy_pather"])
-            // .with(systems::PathDebugDraw, "debug_path_draw", &[])
-            // .with(
-            //     systems::TowerRadiusDebugDraw,
-            //     "tower_radius_debug_draw",
-            //     &[],
-            // )
+            .with(systems::PathDebugDraw, "debug_path_draw", &[])
+            .with(
+                systems::TowerRadiusDebugDraw,
+                "tower_radius_debug_draw",
+                &[],
+            )
             .with(systems::EnemyInRangeTagger, "enemy_in_range_tagger", &[])
             .with(
                 TowerFirer {
@@ -72,8 +72,8 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
                 transform
             })
             .with(Path::new(vec![
-                // Point2::new(100.0, 100.0),
-                // Point2::new(200.0, 100.0),
+                Point2::new(100.0, 100.0),
+                Point2::new(200.0, 100.0),
                 Point2::new(100.0, 200.0),
                 Point2::new(200.0, 200.0),
                 Point2::new(223.0, 242.0),

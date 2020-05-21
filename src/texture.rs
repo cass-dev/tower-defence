@@ -9,7 +9,7 @@ pub fn init(world: &mut World) -> Handle<SpriteSheet> {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "textures/blueSheet.png",
+            "textures/sprite_sheet.png",
             ImageFormat::default(),
             (),
             &texture_storage,
@@ -19,7 +19,7 @@ pub fn init(world: &mut World) -> Handle<SpriteSheet> {
     let loader = world.read_resource::<Loader>();
     let sprite_sheet_store = world.read_resource::<AssetStorage<SpriteSheet>>();
     loader.load(
-        "textures/blueSheet.ron",
+        "textures/sprite_sheet.ron",
         SpriteSheetFormat(texture_handle),
         (),
         &sprite_sheet_store,

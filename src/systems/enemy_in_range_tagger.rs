@@ -41,15 +41,8 @@ impl<'s> System<'s> for EnemyInRangeTagger {
                             other: enemy_entity,
                         },
                     );
-                    inRanges.insert(
-                        enemy_entity,
-                        InRange {
-                            other: tower_entity,
-                        },
-                    );
                 } else {
                     inRanges.remove(tower_entity);
-                    inRanges.remove(enemy_entity);
                 }
             }
         }
