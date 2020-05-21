@@ -6,6 +6,9 @@ pub use self::path::Path;
 pub use self::speed::Speed;
 pub use self::tower::Tower;
 pub use self::velocity::Velocity;
+pub use self::bounds::CircleBounds;
+pub use self::health::Health;
+pub use self::damage::Damage;
 
 use amethyst::prelude::{World, WorldExt};
 
@@ -17,6 +20,9 @@ mod path;
 mod speed;
 mod tower;
 mod velocity;
+mod bounds;
+mod health;
+mod damage;
 
 pub fn init(world: &mut World) {
     world.register::<Enemy>();
@@ -27,4 +33,7 @@ pub fn init(world: &mut World) {
     world.register::<InRange>();
     world.register::<Missile>();
     world.register::<FireRate>();
+    world.register::<CircleBounds>();
+    world.register::<Health>();
+    world.register::<Damage>();
 }

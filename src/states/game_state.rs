@@ -1,4 +1,4 @@
-use crate::components::{Enemy, FireRate, Missile, Path, Speed, Tower, Velocity};
+use crate::components::{Enemy, FireRate, Missile, Path, Speed, Tower, Velocity, CircleBounds, Health, Damage};
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::systems::{MissileTargetter, TowerFirer};
 use crate::{camera, texture};
@@ -32,12 +32,12 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "enemy_mover", &["enemy_pather"])
-            .with(systems::PathDebugDraw, "debug_path_draw", &[])
-            .with(
-                systems::TowerRadiusDebugDraw,
-                "tower_radius_debug_draw",
-                &[],
-            )
+            // .with(systems::PathDebugDraw, "debug_path_draw", &[])
+            // .with(
+            //     systems::TowerRadiusDebugDraw,
+            //     "tower_radius_debug_draw",
+            //     &[],
+            // )
             .with(systems::EnemyInRangeTagger, "enemy_in_range_tagger", &[])
             .with(
                 TowerFirer {
@@ -50,7 +50,8 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
                 systems::MissileTargetter,
                 "missile_targetter",
                 &["tower_firer"],
-            );
+            )
+            .with(systems::EnemyMissileCollider, "enemy_missile_collder", &[]);
 
         let mut dispatcher = dispatcher_builder.build();
         dispatcher.setup(data.world);
@@ -80,6 +81,10 @@ impl<'a, 'b> SimpleState for GameState<'a, 'b> {
             ]))
             .with(Velocity::default())
             .with(Speed(42.0))
+            .with(CircleBounds {
+                radius: 18.0,
+            })
+            .with(Health(100.0))
             .build();
 
         data.world

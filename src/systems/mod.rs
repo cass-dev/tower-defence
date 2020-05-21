@@ -5,6 +5,7 @@ pub use self::path_debug_draw::PathDebugDraw;
 pub use self::tower_firer::TowerFirer;
 pub use self::tower_radius_debug_draw::TowerRadiusDebugDraw;
 pub use self::velocity_mover::VelocityMover;
+pub use self::collider::EnemyMissileCollider;
 
 mod collider;
 mod enemy_in_range_tagger;
