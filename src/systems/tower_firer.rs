@@ -12,6 +12,7 @@ use amethyst::{
         prelude::{Entities, Join, Read, ReadStorage, System, SystemData, World, WriteStorage},
         LazyUpdate,
     },
+    renderer::transparent::Transparent,
     renderer::{SpriteRender, SpriteSheet},
 };
 
@@ -70,6 +71,7 @@ impl<'s> System<'s> for TowerFirer {
                     .with(Speed(100.0))
                     .with(CircleBounds { radius: 2.5 })
                     .with(Damage(10.0))
+                    .with(Transparent)
                     .build();
             }
         }

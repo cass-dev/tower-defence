@@ -19,6 +19,7 @@ use amethyst::{
     core::math::{Orthographic3, Point2},
     prelude::*,
     renderer::camera::Projection,
+    renderer::transparent::Transparent,
     utils::application_root_dir,
     window::ScreenDimensions,
 };
@@ -127,6 +128,7 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
                 transform.set_translation_xyz(pos.0, pos.1, 1.0);
                 transform
             })
+            .with(Transparent)
             .build();
 
         // Tower turret
@@ -143,6 +145,7 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
                 transform
             })
             .with(FireRate::new(0.5))
+            .with(Transparent)
             .build();
     }
 
@@ -168,6 +171,7 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
             .with(Speed(42.0))
             .with(CircleBounds { radius: 18.0 })
             .with(Health(10000.0))
+            .with(Transparent)
             .build();
     }
 }
