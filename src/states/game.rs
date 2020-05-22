@@ -6,9 +6,10 @@ use crate::level::Level;
 use crate::resources::Path;
 use crate::systems::{MissileTargetter, TowerFirer};
 use crate::texture::SpriteSheetHandle;
-use crate::{camera, texture};
+use crate::{camera, resources, texture};
 use crate::{components, systems};
 use amethyst::ecs::{Dispatcher, DispatcherBuilder};
+use amethyst::input::is_close_requested;
 use amethyst::prelude::{Builder, World, WorldExt};
 use amethyst::{
     assets::Handle,
@@ -37,14 +38,17 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
 
         let sprite_sheet = data.world.read_resource::<SpriteSheetHandle>().0.clone();
 
+        data.world.insert(resources::DebugToggle::default());
+
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
-            .with(systems::PathDebugDraw, "debug_path_draw", &[])
+            .with(systems::DebugToggle, "debug_toggle", &[])
+            .with(systems::PathDebugDraw, "debug_path_draw", &["debug_toggle"])
             .with(
                 systems::TowerRadiusDebugDraw,
                 "tower_radius_debug_draw",
-                &[],
+                &["debug_toggle"],
             )
             .with(systems::EnemyInRangeTagger, "enemy_in_range_tagger", &[])
             .with(
@@ -74,7 +78,6 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
         if let Some(dispatcher) = self.dispatcher.as_mut() {
             dispatcher.dispatch(&data.world);
         }
-
         Trans::None
     }
 }

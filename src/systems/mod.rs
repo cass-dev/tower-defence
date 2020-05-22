@@ -1,4 +1,5 @@
 pub use self::collider::EnemyMissileCollider;
+pub use self::debug_draw::DebugToggle;
 pub use self::debug_draw::PathDebugDraw;
 pub use self::debug_draw::TowerRadiusDebugDraw;
 pub use self::enemy_in_range_tagger::EnemyInRangeTagger;

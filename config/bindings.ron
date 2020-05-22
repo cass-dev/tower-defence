@@ -1,0 +1,6 @@
+(
+    axes: {},
+    actions: {
+        "debug_toggle": [[Key(D)]],
+    },
+)
