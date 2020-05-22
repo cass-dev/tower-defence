@@ -1,3 +1,4 @@
+use crate::level::Level;
 use amethyst::core::transform::TransformBundle;
 use amethyst::{
     prelude::*,
@@ -12,6 +13,7 @@ use amethyst::{
 mod camera;
 mod components;
 mod constants;
+mod level;
 mod resources;
 mod states;
 mod systems;

@@ -6,6 +6,7 @@ edition = "2018"
 
 [dependencies]
 ron = "0.6.0"
+serde = "1.0.110"
 
 [dependencies.amethyst]
 version = "0.14"
