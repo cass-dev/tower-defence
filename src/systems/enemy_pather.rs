@@ -65,7 +65,7 @@ impl<'s> System<'s> for EnemyPather {
 
                     transform.set_rotation_z_axis(angle);
 
-                    transform.set_translation_xyz(current_point.x, current_point.y, 0.0);
+                    transform.set_translation_xyz(current_point.x, current_point.y, 1.0);
                 }
             }
         }

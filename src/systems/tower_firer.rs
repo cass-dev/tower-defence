@@ -62,7 +62,7 @@ impl<'s> System<'s> for TowerFirer {
                         transform.set_translation_xyz(
                             tower_transform.translation().x,
                             tower_transform.translation().y,
-                            0.0,
+                            1.5,
                         );
                         transform
                     })

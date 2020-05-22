@@ -39,10 +39,7 @@ impl<'a, 'b> SimpleState for Load<'a, 'b> {
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {
         match self.progress.borrow().complete() {
-            Completion::Complete => {
-                println!("{:?}", self.progress);
-                Trans::Switch(Box::new(states::Game::default()))
-            }
+            Completion::Complete => Trans::Switch(Box::new(states::Game::default())),
             Completion::Failed => {
                 println!("something bad happened");
                 Trans::Quit

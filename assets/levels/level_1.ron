@@ -14,5 +14,21 @@
             157,  26,   1,   1,   1,   1,   1,   2,  23, 157,
             157, 157, 157, 157, 157, 157, 157,  25,  23, 157,
         ]
-    )
+    ),
+    towers: [
+        Tower(tower_type: BASIC, position: (6, 6))
+    ],
+    enemies: [
+        Enemy(enemy_type: MAN, start_position: (2, 12))
+    ],
+    path: Path(points: [
+        (2, 12),
+        (2, 8),
+        (8, 8),
+        (8, 5),
+        (2, 5),
+        (2, 2),
+        (8, 2),
+        (8, -1),
+    ])
 )

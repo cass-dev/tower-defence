@@ -39,12 +39,12 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
         let mut dispatcher_builder = DispatcherBuilder::new()
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
-            // .with(systems::PathDebugDraw, "debug_path_draw", &[])
-            // .with(
-            //     systems::TowerRadiusDebugDraw,
-            //     "tower_radius_debug_draw",
-            //     &[],
-            // )
+            .with(systems::PathDebugDraw, "debug_path_draw", &[])
+            .with(
+                systems::TowerRadiusDebugDraw,
+                "tower_radius_debug_draw",
+                &[],
+            )
             .with(systems::EnemyInRangeTagger, "enemy_in_range_tagger", &[])
             .with(
                 TowerFirer {
@@ -66,46 +66,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
 
         self.dispatcher = Some(dispatcher);
 
-        data.world.insert(Path(vec![
-            Point2::new(350.0, 123.0),
-            Point2::new(200.0, 100.0),
-            Point2::new(100.0, 200.0),
-            Point2::new(200.0, 200.0),
-            Point2::new(223.0, 242.0),
-            Point2::new(254.0, 123.0),
-        ]));
-
         create_level("assets/levels/level_1.ron", data.world, sprite_sheet);
-
-        // // Create some assets
-        // data.world
-        //     .create_entity()
-        //     .with(Enemy::default())
-        //     .with(SpriteRender {
-        //         sprite_sheet: sprite_sheet.clone(),
-        //         sprite_number: (10 * 23) + 15,
-        //     })
-        //     .with(Transform::default())
-        //     .with(Velocity::default())
-        //     .with(Speed(42.0))
-        //     .with(CircleBounds { radius: 18.0 })
-        //     .with(Health(10000.0))
-        //     .build();
-        //
-        // data.world
-        //     .create_entity()
-        //     .with(Tower { range: 150.0 })
-        //     .with(SpriteRender {
-        //         sprite_sheet: sprite_sheet.clone(),
-        //         sprite_number: (10 * 23) + 19,
-        //     })
-        //     .with({
-        //         let mut transform = Transform::default();
-        //         transform.set_translation_xyz(200.0, 300.0, 0.0);
-        //         transform
-        //     })
-        //     .with(FireRate::new(0.5))
-        //     .build();
     }
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {
@@ -146,5 +107,67 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
                 None => panic!("bad index {}", i),
             };
         }
+    }
+
+    for tower in level.towers {
+        let pos = (
+            (tower.position.0 as f32 * 64.0) + 32.0,
+            (tower.position.1 as f32 * 64.0) + 32.0,
+        );
+
+        // Tower base
+        world
+            .create_entity()
+            .with(SpriteRender {
+                sprite_sheet: sprite_sheet.clone(),
+                sprite_number: (7 * 23) + 19,
+            })
+            .with({
+                let mut transform = Transform::default();
+                transform.set_translation_xyz(pos.0, pos.1, 1.0);
+                transform
+            })
+            .build();
+
+        // Tower turret
+        world
+            .create_entity()
+            .with(Tower { range: 160.0 })
+            .with(SpriteRender {
+                sprite_sheet: sprite_sheet.clone(),
+                sprite_number: (10 * 23) + 19,
+            })
+            .with({
+                let mut transform = Transform::default();
+                transform.set_translation_xyz(pos.0, pos.1, 2.0);
+                transform
+            })
+            .with(FireRate::new(0.5))
+            .build();
+    }
+
+    world.insert(Path(
+        level
+            .path
+            .points
+            .into_iter()
+            .map(|(x, y)| Point2::new(x * 64.0, y * 64.0))
+            .collect(),
+    ));
+
+    for _ in level.enemies {
+        world
+            .create_entity()
+            .with(Enemy::default())
+            .with(SpriteRender {
+                sprite_sheet: sprite_sheet.clone(),
+                sprite_number: (10 * 23) + 15,
+            })
+            .with(Transform::default())
+            .with(Velocity::default())
+            .with(Speed(42.0))
+            .with(CircleBounds { radius: 18.0 })
+            .with(Health(10000.0))
+            .build();
     }
 }
