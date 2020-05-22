@@ -8,7 +8,8 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
-    utils::application_root_dir,
+    ui::{RenderUi, UiBundle},
+    utils::{application_root_dir, fps_counter::FpsCounterBundle},
 };
 
 mod camera;
@@ -38,10 +39,13 @@ fn main() -> amethyst::Result<()> {
                         .with_clear([0.008, 0.043, 0.067, 1.0]),
                 )
                 .with_plugin(RenderFlat2D::default())
-                .with_plugin(RenderDebugLines::default()),
+                .with_plugin(RenderDebugLines::default())
+                .with_plugin(RenderUi::default()),
         )?
         .with_bundle(TransformBundle::new())?
-        .with_bundle(input_bundle)?;
+        .with_bundle(input_bundle)?
+        .with_bundle(FpsCounterBundle {})?
+        .with_bundle(UiBundle::<StringBindings>::new())?;
 
     let assets_dir = app_root.join("assets");
     let mut game = Application::new(assets_dir, states::Load::default(), game_data)?;

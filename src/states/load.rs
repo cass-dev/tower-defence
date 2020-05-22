@@ -19,7 +19,9 @@ use amethyst::{
     renderer::camera::Projection,
     window::ScreenDimensions,
 };
-use amethyst::{core::transform::Transform, renderer::Camera, GameData, SimpleState, StateData};
+use amethyst::{
+    core::transform::Transform, renderer::Camera, ui::UiCreator, GameData, SimpleState, StateData,
+};
 use std::cell::RefCell;
 
 #[derive(Default)]
@@ -35,6 +37,10 @@ impl<'a, 'b> SimpleState for Load<'a, 'b> {
 
         self.progress = RefCell::new(ProgressCounter::new());
         texture::init(data.world, &mut self.progress);
+
+        data.world.exec(|mut creator: UiCreator<'_>| {
+            creator.create("ui/fps.ron", self.progress.get_mut())
+        });
     }
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {

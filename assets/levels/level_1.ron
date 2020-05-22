@@ -16,7 +16,10 @@
         ]
     ),
     towers: [
-        Tower(tower_type: BASIC, position: (6, 6))
+        Tower(tower_type: BASIC, position: (6, 6)),
+        Tower(tower_type: BASIC, position: (3, 3)),
+        Tower(tower_type: BASIC, position: (6, 3)),
+        Tower(tower_type: BASIC, position: (3, 6)),
     ],
     enemies: [
         Enemy(enemy_type: MAN, start_position: (2, 12))

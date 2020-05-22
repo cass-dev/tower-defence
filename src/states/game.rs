@@ -41,6 +41,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
         data.world.insert(resources::DebugToggle::default());
 
         let mut dispatcher_builder = DispatcherBuilder::new()
+            .with(systems::UiFpsSystem::default(), "ui_fps_system", &[])
             .with(systems::EnemyPather, "enemy_pather", &[])
             .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
             .with(systems::DebugToggle, "debug_toggle", &[])
