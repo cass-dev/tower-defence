@@ -22,10 +22,13 @@
         Tower(tower_type: BASIC, position: (3, 6)),
     ],
     enemies: [
-        Enemy(enemy_type: MAN, start_position: (1, 1))
+        Enemy(enemy_type: MAN, start_position: (2, 12)),
+        Enemy(enemy_type: MAN, start_position: (2, 12.5)),
+        Enemy(enemy_type: MAN, start_position: (2, 13)),
+        Enemy(enemy_type: MAN, start_position: (2, 13.5)),
+        Enemy(enemy_type: MAN, start_position: (2, 14)),
     ],
     path: Path(points: [
-        /*
         (2, 12),
         (2, 8),
         (8, 8),
@@ -34,12 +37,5 @@
         (2, 2),
         (8, 2),
         (8, -1),
-        */
-
-        (2, 2),
-        (2, 4),
-        (4, 4),
-        (4, 2),
-
     ])
 )

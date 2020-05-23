@@ -43,6 +43,7 @@ impl<'s> System<'s> for EnemyInRangeTagger {
                         },
                     );
                 } else {
+                    // this causes only the last enemy to be targeted
                     inRanges.remove(tower_entity);
                 }
             }

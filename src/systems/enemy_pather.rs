@@ -54,6 +54,9 @@ impl<'s> System<'s> for EnemyPather {
                     velocity.0 = Some(Unit::new_normalize(new_velocity));
 
                     if has_passed_point(&next_position, &current_position, &start_position) {
+                        transform.set_translation_x(next_position.x);
+                        transform.set_translation_y(next_position.y);
+
                         let next_point = (path_index + 1) % path.len();
                         if next_point == 0 {
                             path_follower.pathing_state = PathingState::SnapToPoint(next_point)

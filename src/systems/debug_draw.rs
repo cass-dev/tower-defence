@@ -54,20 +54,20 @@ impl<'s> System<'s> for PathDebugDraw {
                     Point3::new(point_a.x, point_a.y, 0.0),
                     5.0,
                     10,
-                    Srgba::new(1.0, 1.0, 1.0, 1.0),
+                    Srgba::new(1.0, 0.0, 0.0, 1.0),
                 );
 
                 debug_lines_resource.draw_circle(
                     Point3::new(point_b.x, point_b.y, 0.0),
                     5.0,
                     10,
-                    Srgba::new(1.0, 1.0, 1.0, 1.0),
+                    Srgba::new(1.0, 0.0, 0.0, 1.0),
                 );
 
                 debug_lines_resource.draw_line(
                     Point3::new(point_a.x, point_a.y, 0.0),
                     Point3::new(point_b.x, point_b.y, 0.0),
-                    Srgba::new(1.0, 1.0, 1.0, 1.0),
+                    Srgba::new(1.0, 0.0, 0.0, 1.0),
                 );
             }
         }
