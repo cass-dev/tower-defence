@@ -1,5 +1,6 @@
 use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Speed, Tower, Velocity,
+    CircleBounds, Damage, Enemy, FireRate, Health, Missile, PathFollower, PathingState, Speed,
+    Tower, Velocity,
 };
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::level::Level;
@@ -162,7 +163,12 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
             .collect(),
     ));
 
-    for _ in level.enemies {
+    for enemy in level.enemies {
+        let pos = (
+            (enemy.start_position.0 as f32 * 64.0) + 32.0,
+            (enemy.start_position.1 as f32 * 64.0) + 32.0,
+        );
+
         world
             .create_entity()
             .with(Enemy::default())
@@ -170,12 +176,19 @@ fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>
                 sprite_sheet: sprite_sheet.clone(),
                 sprite_number: (10 * 23) + 15,
             })
-            .with(Transform::default())
+            .with({
+                let mut transform = Transform::default();
+                transform.set_translation_xyz(pos.0, pos.1, 1.0);
+                transform
+            })
             .with(Velocity::default())
             .with(Speed(42.0))
             .with(CircleBounds { radius: 18.0 })
             .with(Health(10000.0))
             .with(Transparent)
+            .with(PathFollower {
+                pathing_state: PathingState::MoveToPoint(0, Point2::new(pos.0, pos.1)),
+            })
             .build();
     }
 }
