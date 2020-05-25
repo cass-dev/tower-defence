@@ -24,11 +24,8 @@
 
           let canvas = document.getElementById("amethyst-canvas");
 
-          // The WASM application should not send synchronous requests on the
-          // main thread, so we load the files and pass them in.
           let input_bindings = await fetch('config/bindings.ron')
             .then((response) => { return response.text(); });
-          console.log(input_bindings);
 
           wasm_bindgen.TowerDefenceBuilder
             .new()
@@ -38,11 +35,7 @@
         });
       }
 
-      // run();
-      const launchBtn = document.querySelector('button:nth-of-type(1)');
-      launchBtn.onclick = function() {
-        run();
-      };
+      run();
     </script>
 
 </body>
