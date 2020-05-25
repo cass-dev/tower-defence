@@ -32,7 +32,7 @@ pub fn get_sprite_sheet_handle(
             texture_path,
             ImageFormat::default(),
             progress_counter.get_mut(),
-            &texture_storage,
+            texture_storage,
         )
     };
     let loader = &world.read_resource::<Loader>();
@@ -41,6 +41,6 @@ pub fn get_sprite_sheet_handle(
         ron_path,
         SpriteSheetFormat(texture_handle),
         progress_counter.get_mut(),
-        &sprite_sheet_store,
+        sprite_sheet_store,
     )
 }

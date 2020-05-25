@@ -13,19 +13,22 @@ use amethyst::ecs::{Dispatcher, DispatcherBuilder};
 use amethyst::input::is_close_requested;
 use amethyst::prelude::{Builder, World, WorldExt};
 use amethyst::{
-    assets::Handle,
-    core::math::Vector3,
-    renderer::{SpriteRender, SpriteSheet},
-};
-use amethyst::{
+    assets::AssetStorage,
     core::math::{Orthographic3, Point2},
+    ecs::{prelude::Entities, LazyUpdate},
     prelude::*,
     renderer::camera::Projection,
     renderer::transparent::Transparent,
     utils::application_root_dir,
     window::ScreenDimensions,
 };
+use amethyst::{
+    assets::Handle,
+    core::math::Vector3,
+    renderer::{SpriteRender, SpriteSheet},
+};
 use amethyst::{core::transform::Transform, renderer::Camera, GameData, SimpleState, StateData};
+use std::rc::Rc;
 
 #[derive(Default)]
 pub struct Game<'a, 'b> {
@@ -73,7 +76,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
 
         self.dispatcher = Some(dispatcher);
 
-        create_level("assets/levels/level_1.ron", data.world, sprite_sheet);
+        create_level(data.world, sprite_sheet);
     }
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {
@@ -84,9 +87,12 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
     }
 }
 
-fn create_level(path: &str, world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
-    let app_root = application_root_dir().expect("failed to find root dir");
-    let level = Level::from_file(app_root.join(path));
+fn create_level(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
+    let level = {
+        let level_handle = world.read_resource::<Handle<Level>>();
+        let asset_storage = world.read_resource::<AssetStorage<Level>>();
+        asset_storage.get(&level_handle).unwrap().clone()
+    };
 
     for y in (0..level.tiles.height).rev() {
         for x in (0..level.tiles.width).rev() {
