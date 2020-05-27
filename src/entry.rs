@@ -12,7 +12,6 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
-    ui::{RenderUi, UiBundle},
     utils::{application_root_dir, fps_counter::FpsCounterBundle},
 };
 use std::path::Path;
@@ -38,13 +37,10 @@ where
                     float32: [0.1, 0.1, 0.1, 1.0],
                 }))
                 .with_plugin(RenderFlat2D::default())
-                .with_plugin(RenderDebugLines::default())
-                .with_plugin(RenderUi::default()),
+                .with_plugin(RenderDebugLines::default()),
         )?
         .with_bundle(TransformBundle::new())?
         .with_bundle(InputBundle::<StringBindings>::new().with_bindings(bindings))?
-        .with_bundle(FpsCounterBundle {})?
-        .with_bundle(UiBundle::<StringBindings>::new())?
         .with(Processor::<Level>::new(), "settings_processor", &[]);
 
     let assets_dir = app_root.join("assets");

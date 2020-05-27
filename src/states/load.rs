@@ -1,6 +1,4 @@
-use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, Health, Missile, Speed, Tower, Velocity,
-};
+use crate::components::{CircleBounds, Damage, Enemy, FireRate, Health, Missile, Tower};
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::level::Level;
 use crate::systems::{MissileTargetter, TowerFirer};
@@ -21,9 +19,7 @@ use amethyst::{
     core::math::Vector3,
     renderer::{SpriteRender, SpriteSheet},
 };
-use amethyst::{
-    core::transform::Transform, renderer::Camera, ui::UiCreator, GameData, SimpleState, StateData,
-};
+use amethyst::{core::transform::Transform, renderer::Camera, GameData, SimpleState, StateData};
 use std::cell::RefCell;
 
 #[derive(Default)]
@@ -43,10 +39,6 @@ impl<'a, 'b> SimpleState for Load<'a, 'b> {
         level::init(data.world, &mut self.progress);
 
         texture::init(data.world, &mut self.progress);
-
-        // data.world.exec(|mut creator: UiCreator<'_>| {
-        //     creator.create("ui/fps.ron", self.progress.get_mut())
-        // });
     }
 
     fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {

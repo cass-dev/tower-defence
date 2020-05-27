@@ -1,6 +1,5 @@
-use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Speed, Tower, Velocity,
-};
+use crate::components::{CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Tower};
+use crate::physics;
 use amethyst::prelude::Builder;
 use amethyst::{
     assets::Handle,
@@ -67,8 +66,8 @@ impl<'s> System<'s> for TowerFirer {
                         );
                         transform
                     })
-                    .with(Velocity::default())
-                    .with(Speed(100.0))
+                    .with(physics::Velocity::default())
+                    .with(physics::Speed(100.0))
                     .with(CircleBounds { radius: 2.5 })
                     .with(Damage(10.0))
                     .with(Transparent)

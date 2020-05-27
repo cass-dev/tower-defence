@@ -2,6 +2,7 @@ use amethyst::core::math::Vector2;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use std::ops::Mul;
 
+#[derive(Debug)]
 pub struct Speed(pub f32);
 
 impl Default for Speed {

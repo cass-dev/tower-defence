@@ -1,4 +1,4 @@
-use crate::components::{Enemy, Tower, Velocity};
+use crate::components::{Enemy, Tower};
 use crate::resources;
 use crate::resources::Path;
 use amethyst::{

@@ -1,4 +1,4 @@
-use crate::components::{CircleBounds, Damage, Enemy, Health, Missile, Speed, Velocity};
+use crate::components::{CircleBounds, Damage, Enemy, Health, Missile};
 use amethyst::{
     core::math,
     core::math::Point2,

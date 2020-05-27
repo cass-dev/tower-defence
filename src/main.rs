@@ -20,6 +20,7 @@ mod components;
 mod constants;
 mod entry;
 mod level;
+mod physics;
 mod resources;
 mod states;
 mod systems;

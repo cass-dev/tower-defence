@@ -1,6 +1,4 @@
-use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Speed, Tower, Velocity,
-};
+use crate::components::{CircleBounds, Damage, Enemy, FireRate, InRange, Missile, Tower};
 use amethyst::prelude::Builder;
 use amethyst::{
     assets::Handle,

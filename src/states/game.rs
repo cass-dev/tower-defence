@@ -1,13 +1,12 @@
 use crate::components::{
-    CircleBounds, Damage, Enemy, FireRate, Health, Missile, PathFollower, PathingState, Speed,
-    Tower, Velocity,
+    CircleBounds, Damage, Enemy, FireRate, Health, Missile, PathFollower, PathingState, Tower,
 };
 use crate::constants::{ARENA_HEIGHT, ARENA_WIDTH};
 use crate::level::Level;
 use crate::resources::Path;
 use crate::systems::{MissileTargetter, TowerFirer};
 use crate::texture::SpriteSheetHandle;
-use crate::{camera, resources, texture};
+use crate::{camera, physics, resources, texture};
 use crate::{components, systems};
 use amethyst::ecs::{Dispatcher, DispatcherBuilder};
 use amethyst::input::is_close_requested;
@@ -45,9 +44,7 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
         data.world.insert(resources::DebugToggle::default());
 
         let mut dispatcher_builder = DispatcherBuilder::new()
-            .with(systems::UiFpsSystem::default(), "ui_fps_system", &[])
             .with(systems::EnemyPather, "enemy_pather", &[])
-            .with(systems::VelocityMover, "velocity_mover", &["enemy_pather"])
             .with(systems::DebugToggle, "debug_toggle", &[])
             .with(systems::PathDebugDraw, "debug_path_draw", &["debug_toggle"])
             .with(
@@ -69,9 +66,12 @@ impl<'a, 'b> SimpleState for Game<'a, 'b> {
                 &["tower_firer"],
             )
             .with(systems::EnemyMissileCollider, "enemy_missile_collder", &[])
-            .with(systems::TowerRotator, "tower_rotator", &["velocity_mover"]);
+            .with(systems::TowerRotator, "tower_rotator", &[]);
+
+        dispatcher_builder = physics::init(data.world, dispatcher_builder);
 
         let mut dispatcher = dispatcher_builder.build();
+
         dispatcher.setup(data.world);
 
         self.dispatcher = Some(dispatcher);
@@ -187,8 +187,8 @@ fn create_level(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
                 transform.set_translation_xyz(pos.0, pos.1, 1.0);
                 transform
             })
-            .with(Velocity::default())
-            .with(Speed(42.0))
+            .with(physics::Velocity::default())
+            .with(physics::Speed(42.0))
             .with(CircleBounds { radius: 18.0 })
             .with(Health(10000.0))
             .with(Transparent)

@@ -7,8 +7,6 @@ pub use self::enemy_pather::EnemyPather;
 pub use self::missile_targetter::MissileTargetter;
 pub use self::tower_firer::TowerFirer;
 pub use self::tower_rotator::TowerRotator;
-pub use self::ui::*;
-pub use self::velocity_mover::VelocityMover;
 
 mod collider;
 mod debug_draw;
@@ -17,5 +15,3 @@ mod enemy_pather;
 mod missile_targetter;
 mod tower_firer;
 mod tower_rotator;
-mod ui;
-mod velocity_mover;

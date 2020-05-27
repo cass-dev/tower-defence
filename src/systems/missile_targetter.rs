@@ -1,4 +1,5 @@
-use crate::components::{Enemy, Missile, Speed, Velocity};
+use crate::components::{Enemy, Missile};
+use crate::physics;
 use amethyst::{
     core::math::{Unit, Vector2},
     core::timing::Time,
@@ -15,7 +16,7 @@ impl<'s> System<'s> for MissileTargetter {
     type SystemData = (
         ReadStorage<'s, Missile>,
         ReadStorage<'s, Transform>,
-        WriteStorage<'s, Velocity>,
+        WriteStorage<'s, physics::Velocity>,
     );
 
     fn run(&mut self, (missiles, transforms, mut velocities): Self::SystemData) {

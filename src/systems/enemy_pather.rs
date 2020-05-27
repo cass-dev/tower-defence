@@ -1,4 +1,5 @@
-use crate::components::{Enemy, PathFollower, PathingState, Velocity};
+use crate::components::{Enemy, PathFollower, PathingState};
+use crate::physics;
 use crate::resources::Path;
 use amethyst::{
     core::math::{distance, Point2, Point3, Unit, Vector2, Vector3},
@@ -21,7 +22,7 @@ impl<'s> System<'s> for EnemyPather {
         Read<'s, Path>,
         WriteStorage<'s, PathFollower>,
         WriteStorage<'s, Transform>,
-        WriteStorage<'s, Velocity>,
+        WriteStorage<'s, physics::Velocity>,
     );
 
     fn run(
